@@ -1,5 +1,16 @@
 # 变更记录
 
+## 2026-11-03 拆库：本仓库改为索引
+
+- 四个技能各自独立成库，本仓库不再存放技能代码：
+  - `law-text-ingest` → https://github.com/zhanguoliang715/law-text-ingest
+  - `comfyui-local-zimage` → https://github.com/zhanguoliang715/comfyui-local-zimage
+  - `diagram-layout-discipline` → https://github.com/zhanguoliang715/diagram-layout-discipline
+  - `chinese-report-voice` → https://github.com/zhanguoliang715/chinese-report-voice
+- 目录 `skills/` 与 `docs/技能说明/` 整体移除；内容原样迁入各自仓库，并补写 `docs/技术文档.md`
+- README 与 Pages 首页改为索引：说明拆分理由、列出四个仓库、区分「有数据流依赖所以住一起」的流水线仓库
+- 理由：四个技能互不调用，共享仓库导致分享无法单独给出、Issue 与版本无法分开
+
 ## 2026-11-03 首次发布
 
 - 收录四个独立技能：`law-text-ingest`、`comfyui-local-zimage`、`diagram-layout-discipline`、`chinese-report-voice`

@@ -1,51 +1,46 @@
-# 中文优先的 AI Agent 技能合集
+# AI Agent 技能索引（中文优先）
 
-**四个不依赖任何流水线的独立技能：本地 ComfyUI 出图、法律 PDF 入库、SVG 图表排版纪律、中文报告体文风。每个都能单独装、单独用，互不调用。**
+**这里不放技能，只放索引。每个技能是独立仓库，一个链接对应一个技能，想分享哪个发哪个。**
 
+![Skills](https://img.shields.io/badge/独立技能-4-2E7D32)
 ![License](https://img.shields.io/badge/license-MIT-yellow)
-![Skills](https://img.shields.io/badge/skills-4-2E7D32)
-![Language](https://img.shields.io/badge/docs-中文-C0392B)
 
-## 这四个技能是什么关系
+## 为什么拆成一技能一库
 
-**没有关系。** 这是它们的共同点：每一个都从真实返工里长出来，独立可拆，不依赖别的技能、不共享配置、不按顺序执行。所以放在一个仓库里，但各自是自包含目录。
+早先这 4 个技能挤在本仓库里，问题是：分享时没法只给一个，别人 clone 下来还得自己挑；仓库的 Star、Issue、版本也跟着混在一起，没法单独说明。**四个技能互不调用，没有任何理由共享一个仓库。**
 
-与 [agent-pipeline-skills](https://github.com/zhanguoliang715/agent-pipeline-skills) 的区别：那个仓库是十棒串行流水线（需求→评审→设计→开发→测试→安全），技能之间有强制的前后依赖；**本仓库只收「单独拿出来就能用」的技能**。
+现在的规矩很简单：**有数据流依赖的才住一起，其余一律独立成库。**
 
-## 四个技能
+## 四个独立技能
 
-| 技能 | 解决什么麻烦 | 关键产出 | 依赖 |
-|---|---|---|---|
-| [`law-text-ingest`](skills/law-text-ingest/) | 法律 PDF 入库时条号错、版本过期、编章结构靠手抄 | 编章结构（脚本提取）+ 逐条核对留痕 | Python 3.9+，标准库 |
-| [`comfyui-local-zimage`](skills/comfyui-local-zimage/) | 云端出图要钱、本地 ComfyUI 装不上 / 下不动 / 显存爆 | 可跑的 API 工作流 + 批量出图脚本 | Windows + NVIDIA 8GB+，ComfyUI |
-| [`diagram-layout-discipline`](skills/diagram-layout-discipline/) | SVG 图里文字溢出边框、嵌套容器分不清、流程用文字描述 | 三条硬纪律 + 文字宽度实测脚本 + 骨架生成器 | Python 3.9+，Pillow（量字宽） |
-| [`chinese-report-voice`](skills/chinese-report-voice/) | 给评委看的文档写成故事、语体判错、自我削弱句 | 文风六条 + 两个门禁脚本（文风扫查 / PDF 排版体检） | Python 3.9+，python-docx / pymupdf |
+| 技能 | 一句话 | 依赖 |
+|---|---|---|
+| [law-text-ingest](https://github.com/zhanguoliang715/law-text-ingest) | 法律 PDF 入库：时效核查、脚本提取编章结构、逐条回原文核对 | Python 标准库 |
+| [comfyui-local-zimage](https://github.com/zhanguoliang715/comfyui-local-zimage) | Windows 本机 ComfyUI 免费出图：下载、显存、锁脸、拼视频 | Windows + NVIDIA 8GB+ |
+| [diagram-layout-discipline](https://github.com/zhanguoliang715/diagram-layout-discipline) | SVG 图表三条硬纪律 + 文字宽度实测，不许溢出、不许混淆 | Python 标准库 |
+| [chinese-report-voice](https://github.com/zhanguoliang715/chinese-report-voice) | 中文报告体文风：先判文体、六条语体、两个可跑门禁 | Python（docx/pdf 需可选库） |
 
-## 怎么装
+## 相关但不在本索引的技能
 
-每个技能目录都是自包含的（`SKILL.md` + `scripts/` + `references/`）。把它整个拷到你所用 Agent 的技能目录下即可：
+| 仓库 | 是什么 | 为什么单独 |
+|---|---|---|
+| [agent-pipeline-skills](https://github.com/zhanguoliang715/agent-pipeline-skills) | 软件开发十棒流水线（需求→评审→设计→开发→测试→安全） | 十棒之间有强制数据流，**必须住一起**，拆开就失效 |
+| [architecture-designer](https://github.com/zhanguoliang715/architecture-designer) | 流水线第六棒的单体发行版 | 给"只想要架构这一棒"的人；与主仓库同源 |
+
+## 怎么用
 
 ```bash
-git clone https://github.com/zhanguoliang715/ai-agent-skills-cn.git
-cp -r ai-agent-skills-cn/skills/<技能名> ~/.workbuddy/skills/
+# 只要一个技能，就只 clone 那一个
+git clone https://github.com/zhanguoliang715/law-text-ingest.git
+cp -r law-text-ingest ~/.workbuddy/skills/
 ```
 
-只想要其中一个，就只拷那一个目录，不用整仓库。
+每个技能仓库里都有：`SKILL.md`（规则原文）、`docs/新手手册.md`（怎么做、为什么）、`docs/技术文档.md`（契约、边界、失败模式）。
 
-## 它们共同的三个特点
+## 官网
 
-1. **都是「反例驱动」**：每条规则背后都有一次真实返工（文字溢出被截图退回、报告写成故事被退三次、条号错到整篇重做）。规则不是凭想象定的。
-2. **都带可跑的门禁**：不靠"注意一下"，靠脚本退出码。文字量宽用 `measure_text.py` 实测，不靠眼睛估。
-3. **都写清了边界**：什么情况不适用、会失败在哪、换场景要改什么。**这些技能不是通用的**，换个领域就得换规则，见各技能 `SKILL.md` 的适用范围段。
+[zhanguoliang715.github.io/ai-agent-skills-cn](https://zhanguoliang715.github.io/ai-agent-skills-cn/)
 
-## 文档
-
-| 想看什么 | 去哪 |
-|---|---|
-| 每个技能怎么用、为什么这么设计 | [docs/技能说明/](docs/技能说明/) |
-| 完整规则原文 | 各技能目录下的 `SKILL.md` |
-| 官网 | [zhanguoliang715.github.io/ai-agent-skills-cn](https://zhanguoliang715.github.io/ai-agent-skills-cn/) |
-
-## 许可
+## License
 
 [MIT](LICENSE)
