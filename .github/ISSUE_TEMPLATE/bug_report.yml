@@ -1,0 +1,43 @@
+name: 问题反馈
+description: 脚本报错、规则不适用、文档与实现不一致
+labels: ["bug"]
+body:
+  - type: dropdown
+    id: skill
+    attributes:
+      label: 涉及哪个技能
+      options:
+        - law-text-ingest
+        - comfyui-local-zimage
+        - diagram-layout-discipline
+        - chinese-report-voice
+        - 仓库级（README / Pages / 模板）
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: 现象
+      description: 实际发生了什么，贴命令与完整报错（含退出码）
+      placeholder: |
+        $ python scripts/xxx.py --help
+        ...报错原文...
+        EXIT=1
+    validations:
+      required: true
+  - type: textarea
+    id: expect
+    attributes:
+      label: 你期望的结果
+  - type: input
+    id: env
+    attributes:
+      label: 环境
+      placeholder: Windows 11 / Python 3.12 / ComfyUI 0.41.0
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: 确认
+      options:
+        - label: 这是"技能不适用于我的场景"，不是 bug（属正常，本仓库技能均为特定场景设计）
+          required: false

@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 先看技能说明
+    url: https://github.com/zhanguoliang715/ai-agent-skills-cn/tree/main/docs/技能说明
+    about: 每个技能都写了适用场景、边界和常见失败，多数"用不起来"在这三节里有答案
